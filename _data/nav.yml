@@ -1,0 +1,17 @@
+- name: Home
+  url: /
+
+- name: Stichting Huisvesting Middengroepen
+  url: /stichting-huisvesting-middengroepen/
+
+- name: Woningfonds
+  url: /woningfonds/
+
+- name: Koopgarantfonds
+  url: /koopgarantfonds/
+
+- name: Onze Mensen
+  url: /onze-mensen/
+
+- name: Contact
+  url: /contact/
