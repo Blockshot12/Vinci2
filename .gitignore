@@ -43,6 +43,7 @@ bower.json
 *.css.min.map
 build/
 dist/
+css/
 help/gulp.psd
 _site
 .sass-cache
