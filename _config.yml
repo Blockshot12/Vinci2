@@ -34,3 +34,7 @@ exclude:
   - gulpfile.js
   - help
   - js
+
+# Server Config options
+livereload: true
+reload_port: 8000

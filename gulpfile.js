@@ -26,12 +26,11 @@ const projectUrl = 'http://localhost:4000/vinci';
 
 const siteRoot = '_site';
 
-const sassSrc = '_scss/*.scss';
+const sassSrc = '_src/scss/**/*.scss';
 const sassDest = 'css/';
-const sassWatch = '_scss/**/*.scss';
 
-const jsSrc = 'js/**/*.js';
-const jsDest = siteRoot + '/js/';
+const jsSrc = '_src/js/**/*.js';
+const jsDest = 'js/';
 const jsFile = 'scripts';
 
 const jsVendorSrc = 'js/vendors/*.js';
@@ -39,11 +38,11 @@ const jsVendorSrc = 'js/vendors/*.js';
 const htmlSrc = siteRoot + '/**/*.html'; // Only Jekyll output to _site is minified.
 const htmlDest = siteRoot;
 
-const imgSrc = 'img/**/*';
-const imgDest = siteRoot + '/img/';
+const imgSrc = '_src/img/**/*';
+const imgDest = 'img/';
 
-const fontSrc = siteRoot + '/fonts/**/*';
-const fontDest = siteRoot + '/fonts/';
+const fontSrc = '_src/fonts/**/*';
+const fontDest = 'fonts/';
 
 const svgSrc = 'img/**/*.svg';
 const svgDest = siteRoot + '/img/';
@@ -110,7 +109,7 @@ gulp.task('sass', () => {
     .pipe(postcss([
       lost,
       rucksack,
-      autoprefixer({browsers:['last 5 versions']})
+      autoprefixer({browsers:['last 3 versions']})
     ]))
     .pipe(gulp.dest(sassDest))
     .pipe(rename({
@@ -121,10 +120,6 @@ gulp.task('sass', () => {
     ]))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(sassDest))
-    .pipe(reload({
-      stream: true,
-      once: true
-    }))
     .pipe(notify({
       title: 'Sass task completed',
       message: 'All Sass files are compiled into CSS & minified.',
@@ -169,10 +164,6 @@ gulp.task('js', function() {
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(jsDest))
-    .pipe(reload({
-      stream: true,
-      once: true
-    }))
     .pipe(notify({
       title: 'JS task completed',
       message: 'All JS files are saved & minified.',
@@ -228,10 +219,6 @@ gulp.task('img', function() {
       interlaced: true
     })))
     .pipe(gulp.dest(imgDest))
-    .pipe(reload({
-      stream: true,
-      once: true
-    }))
     .pipe(notify({
       title: 'Images task completed',
       message: 'All images are saved & minified.',
@@ -250,10 +237,6 @@ gulp.task('fontmin', function() {
   return gulp.src(fontSrc)
     .pipe(fontmin())
     .pipe(gulp.dest(fontDest))
-    .pipe(reload({
-      stream: true,
-      once: true
-    }))
     .pipe(notify({
       title: 'Fonts task completed',
       message: 'All fonts are saved and minified.',
@@ -271,8 +254,8 @@ gulp.task('fontmin', function() {
  */
 gulp.task('jekyll', () => {
   const jekyll = child.spawn('jekyll', [
-    'build',
-    '--watch',
+    'serve',
+    //'--watch',
     //'--incremental',
     '--drafts'
   ]);
@@ -291,26 +274,18 @@ gulp.task('jekyll', () => {
 /**
  * Task: Build al files with Gulp & Jekyll.
  */
-gulp.task('build', ['jekyll','sass','js','img','fontmin']);
+gulp.task('build', ['sass','js','img','fontmin']);
 
 
 /**
  * Task: Run Browser-Sync on siteRoot.
  */
-gulp.task('serve', () => {
-  browserSync.init({
-    files: [siteRoot + '/**'],
-    port: 4000,
-    server: {
-      baseDir: siteRoot
-    }
-  });
-
-  gulp.watch(sassWatch, ['sass']);
-  gulp.watch(jsSrc, ['js']);
-  gulp.watch(htmlSrc, ['html']);
-  gulp.watch(imgSrc, ['img']);
-  gulp.watch(fontSrc, ['font']);
+gulp.task('watch', function() {
+  gulp.watch(sassSrc, ['sass']);
+  //gulp.watch(jsSrc, ['js']);
+  //gulp.watch(htmlSrc, ['html']);
+  //gulp.watch(imgSrc, ['img']);
+  //gulp.watch(fontSrc, ['font']);
 });
 
 /**
@@ -322,6 +297,12 @@ gulp.task('clean', function() {
 
 
 /**
+ * Task: Build al files with Gulp & Jekyll.
+ */
+gulp.task('build', ['sass','js','img','fontmin']);
+
+
+/**
  * Task: Run this Gulpfile.
  */
-gulp.task('default', ['build','serve']);
+gulp.task('default', ['clean','sass','jekyll','watch']);
