@@ -21,13 +21,14 @@
  *
  * The projectUrl contains the local URL, example:4000.
  */
-const project = 'My_site';
-const projectUrl = 'http://localhost:4000/';
+const project = 'Vinci';
+const projectUrl = 'http://localhost:4000/vinci';
 
 const siteRoot = '_site';
 
-const sassSrc = 'css/**/*.scss';
-const sassDest = siteRoot + '/css/';
+const sassSrc = '_scss/*.scss';
+const sassDest = 'css/';
+const sassWatch = '_scss/**/*.scss';
 
 const jsSrc = 'js/**/*.js';
 const jsDest = siteRoot + '/js/';
@@ -43,6 +44,9 @@ const imgDest = siteRoot + '/img/';
 
 const fontSrc = siteRoot + '/fonts/**/*';
 const fontDest = siteRoot + '/fonts/';
+
+const svgSrc = 'img/**/*.svg';
+const svgDest = siteRoot + '/img/';
 
 const jekyllSrc = ['**/*.html','**/*.yml','**/*.json','!_site/**'];
 
@@ -71,6 +75,7 @@ const rename = require('gulp-rename');
 const rucksack = require('rucksack-css');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
+const svgmin = require('gulp-svgmin');
 const uglify = require('gulp-uglify');
 const util = require('gulp-util');
 
@@ -260,6 +265,7 @@ gulp.task('fontmin', function() {
     }))
 });
 
+
 /**
  * Task: Build Jekyll site.
  */
@@ -285,7 +291,7 @@ gulp.task('jekyll', () => {
 /**
  * Task: Build al files with Gulp & Jekyll.
  */
-gulp.task('build', ['sass','js','img','jekyll']);
+gulp.task('build', ['jekyll','sass','js','img','fontmin']);
 
 
 /**
@@ -300,7 +306,7 @@ gulp.task('serve', () => {
     }
   });
 
-  gulp.watch(sassSrc, ['sass']);
+  gulp.watch(sassWatch, ['sass']);
   gulp.watch(jsSrc, ['js']);
   gulp.watch(htmlSrc, ['html']);
   gulp.watch(imgSrc, ['img']);
@@ -318,4 +324,4 @@ gulp.task('clean', function() {
 /**
  * Task: Run this Gulpfile.
  */
-gulp.task('default', ['build','jekyll','serve']);
+gulp.task('default', ['build','serve']);
