@@ -36,7 +36,7 @@ const jsFile = 'scripts';
 const jsVendorSrc = 'js/vendors/*.js';
 
 const htmlSrc = siteRoot + '/**/*.html'; // Only Jekyll output to _site is minified.
-const htmlDest = siteRoot;
+const htmlDest = siteRoot + '/';
 
 const imgSrc = '_src/img/**/*';
 const imgDest = 'img/';
@@ -44,10 +44,8 @@ const imgDest = 'img/';
 const fontSrc = '_src/fonts/**/*';
 const fontDest = 'fonts/';
 
-const svgSrc = 'img/**/*.svg';
-const svgDest = siteRoot + '/img/';
-
-const jekyllSrc = ['**/*.html','**/*.yml','**/*.json','!_site/**'];
+const svgSrc = '_src/svg/**/*';
+const svgDest = 'img/';
 
 
 /**
@@ -64,6 +62,7 @@ const fontmin = require('gulp-fontmin');
 const flatten = require('gulp-flatten');
 const gulp = require('gulp');
 const htmlmin = require('gulp-htmlmin');
+const htmlv = require('gulp-html-validator');
 const imagemin = require('gulp-imagemin');
 const lost = require('lost');
 const notify = require('gulp-notify');
@@ -120,6 +119,10 @@ gulp.task('sass', () => {
     ]))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(sassDest))
+    .pipe(reload({
+      stream: true,
+      once: true
+    }))
     .pipe(notify({
       title: 'Sass task completed',
       message: 'All Sass files are compiled into CSS & minified.',
@@ -164,6 +167,10 @@ gulp.task('js', function() {
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(jsDest))
+    .pipe(reload({
+      stream: true,
+      once: true
+    }))
     .pipe(notify({
       title: 'JS task completed',
       message: 'All JS files are saved & minified.',
@@ -197,6 +204,10 @@ gulp.task('html', () => {
     }))
     .pipe(htmlmin({collapseWhitespace: true, removeComments: true}))
     .pipe(gulp.dest(htmlDest))
+    .pipe(reload({
+      stream: true,
+      once: true
+    }))
     .pipe(notify({
       title: 'HTML task completed',
       message: 'All HTML files are minified.',
@@ -219,6 +230,10 @@ gulp.task('img', function() {
       interlaced: true
     })))
     .pipe(gulp.dest(imgDest))
+    .pipe(reload({
+      stream: true,
+      once: true
+    }))
     .pipe(notify({
       title: 'Images task completed',
       message: 'All images are saved & minified.',
@@ -230,6 +245,50 @@ gulp.task('img', function() {
     }));
 });
 
+
+/**
+ * Task: Compress all images im the folder img.
+ */
+gulp.task('svg', function() {
+  var onError = function(error) {
+    notify.onError({
+      title: '<%= error.message %>',
+      sound: 'Frog',
+      icon: path.join(__dirname, 'help/error.png'),
+      contentImage: path.join(__dirname, 'help/svg.png'),
+      time: 3000,
+      onLast: true
+    })(error);
+
+    this.emit('end');
+  };
+  return gulp.src(svgSrc)
+    .pipe(svgmin({
+      plugins: [{
+        cleanupIDs: false
+      }, {
+        moveGroupAttrsToElems: false
+      }, {
+        removeViewBox: false
+      }]
+    }))
+    .pipe(gulp.dest(svgDest))
+    .pipe(reload({
+      stream: true,
+      once: true
+    }))
+    .pipe(notify({
+      title: 'Images task completed',
+      message: 'All SVGs are saved.',
+      sound: 'Submarine',
+      icon: path.join(__dirname, 'help/check.png'),
+      contentImage: path.join(__dirname, 'help/svg.png'),
+      time: 1000,
+      onLast: true
+    }));
+});
+
+
 /**
  * Task: Minify all font files.
  */
@@ -237,6 +296,10 @@ gulp.task('fontmin', function() {
   return gulp.src(fontSrc)
     .pipe(fontmin())
     .pipe(gulp.dest(fontDest))
+    .pipe(reload({
+      stream: true,
+      once: true
+    }))
     .pipe(notify({
       title: 'Fonts task completed',
       message: 'All fonts are saved and minified.',
@@ -254,8 +317,9 @@ gulp.task('fontmin', function() {
  */
 gulp.task('jekyll', () => {
   const jekyll = child.spawn('jekyll', [
-    'serve',
-    //'--watch',
+    'build',
+    //'serve',
+    '--watch',
     //'--incremental',
     '--drafts'
   ]);
@@ -272,15 +336,17 @@ gulp.task('jekyll', () => {
 
 
 /**
- * Task: Build al files with Gulp & Jekyll.
- */
-gulp.task('build', ['sass','js','img','fontmin']);
-
-
-/**
  * Task: Run Browser-Sync on siteRoot.
  */
-gulp.task('watch', function() {
+gulp.task('serve', () => {
+  browserSync.init({
+    files: [siteRoot + '/**'],
+    port: 4000,
+    server: {
+      baseDir: siteRoot
+    }
+  });
+
   gulp.watch(sassSrc, ['sass']);
   //gulp.watch(jsSrc, ['js']);
   //gulp.watch(htmlSrc, ['html']);
@@ -299,10 +365,10 @@ gulp.task('clean', function() {
 /**
  * Task: Build al files with Gulp & Jekyll.
  */
-gulp.task('build', ['sass','js','img','fontmin']);
+gulp.task('build', ['sass','js','img','svg','fontmin','fontmin']);
 
 
 /**
  * Task: Run this Gulpfile.
  */
-gulp.task('default', ['clean','sass','jekyll','watch']);
+gulp.task('default', ['build','jekyll','serve']);
