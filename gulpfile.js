@@ -202,7 +202,7 @@ gulp.task('html', () => {
       errorHandler: onError
     }))
     .pipe(htmlv({format: 'html'}))
-    .pipe(gulp.dest('out/'))
+    .pipe(gulp.dest('htmlv/'))
     .pipe(htmlmin({collapseWhitespace: true, removeComments: true}))
     .pipe(gulp.dest(htmlDest))
     .pipe(reload({
