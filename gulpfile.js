@@ -154,7 +154,6 @@ gulp.task('js', function() {
     .pipe(plumber({
       errorHandler: onError
     }))
-
     .pipe(sourcemaps.init({
       loadMaps: true
     }))
@@ -202,6 +201,8 @@ gulp.task('html', () => {
     .pipe(plumber({
       errorHandler: onError
     }))
+    .pipe(htmlv({format: 'html'}))
+    .pipe(gulp.dest('out/'))
     .pipe(htmlmin({collapseWhitespace: true, removeComments: true}))
     .pipe(gulp.dest(htmlDest))
     .pipe(reload({
@@ -263,6 +264,9 @@ gulp.task('svg', function() {
     this.emit('end');
   };
   return gulp.src(svgSrc)
+    .pipe(plumber({
+      errorHandler: onError
+    }))
     .pipe(svgmin({
       plugins: [{
         cleanupIDs: false

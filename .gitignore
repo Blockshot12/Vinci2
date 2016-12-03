@@ -44,6 +44,7 @@ bower.json
 build/
 dist/
 css/
+htmlv/
 help/gulp.psd
 _site
 .sass-cache
