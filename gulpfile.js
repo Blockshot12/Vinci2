@@ -119,10 +119,6 @@ gulp.task('sass', () => {
     ]))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(sassDest))
-    .pipe(reload({
-      stream: true,
-      once: true
-    }))
     .pipe(notify({
       title: 'Sass task completed',
       message: 'All Sass files are compiled into CSS & minified.',
@@ -201,8 +197,6 @@ gulp.task('html', () => {
     .pipe(plumber({
       errorHandler: onError
     }))
-    .pipe(htmlv({format: 'html'}))
-    .pipe(gulp.dest('htmlv/'))
     .pipe(htmlmin({collapseWhitespace: true, removeComments: true}))
     .pipe(gulp.dest(htmlDest))
     .pipe(reload({
@@ -353,7 +347,7 @@ gulp.task('serve', () => {
 
   gulp.watch(sassSrc, ['sass']);
   //gulp.watch(jsSrc, ['js']);
-  //gulp.watch(htmlSrc, ['html']);
+  gulp.watch(htmlSrc, ['html']);
   //gulp.watch(imgSrc, ['img']);
   //gulp.watch(fontSrc, ['font']);
 });
