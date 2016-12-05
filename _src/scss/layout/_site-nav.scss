@@ -1,26 +1,29 @@
-.site-nav {
+.l-nav {
 	height: 50px;;
 	background-color: $yellow;
 }
 
-.site-nav__list {
+.l-nav__list {
+	position: relative;
 	display: block;
 	list-style-type: none;
 	margin: 10px;
 
-	.site-nav__item {
+	.l-nav__item {
+		position: relative;
 		display: block;
 		float: left;
 	}
-	.site-nav__link {
-		color: $white;
-		padding: 15px;
-		background-color: $orange;
-		font-size: 16px;
-		font-weight: 400;
-		line-height: 21px;
-	}
 }
-.site-nav__item--close, .site-nav__open {
+.l-nav__link {
+	color: $white;
+	padding: 15px;
+	background-color: $orange;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 21px;
+}
+
+.l-nav__close, .l-nav__open {
 	display: none;
 }
