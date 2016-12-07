@@ -1,29 +1,27 @@
-.l-nav {
-	height: 50px;;
-	background-color: $yellow;
+.site-nav {
+	background-color: transparent;
+	border-bottom: 5px solid $yellow;
 }
 
-.l-nav__list {
-	position: relative;
-	display: block;
+.site-nav__list {
+	margin: 0;
+	padding: 0;
 	list-style-type: none;
-	margin: 10px;
-
-	.l-nav__item {
-		position: relative;
-		display: block;
-		float: left;
-	}
 }
-.l-nav__link {
-	color: $white;
+.site-nav__item {
+	display: block;
+	float: left;
+}
+
+.site-nav__link {
+	display: block;
 	padding: 15px;
-	background-color: $orange;
+	color: $yellow;
 	font-size: 16px;
-	font-weight: 400;
-	line-height: 21px;
+	@include font-weight(regular);
+	line-height: 20px;
 }
 
-.l-nav__close, .l-nav__open {
+.site-nav__close, .site-nav__open {
 	display: none;
 }
