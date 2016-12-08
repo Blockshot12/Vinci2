@@ -16,9 +16,10 @@ html {
 body {
 	height: 100%;
 	color: $text-color;
-	font-size: 18px;
-	line-height: 1.56em;
-	letter-spacing: 1.2px;
+	font-size: $font-size-base;
+	font-weight: $font-weight-base;
+	line-height: $line-height-base;
+	letter-spacing: $letter-spacing-base;
 	background-color: $white;
 	background-repeat: no-repeat;
 	background-position: center bottom;
