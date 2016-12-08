@@ -1,0 +1,18 @@
+.footer {
+	color: $white;
+	background-color: $red-purple;
+	@include gradient-horizontal-three-colors($purple, $red-purple, 20%, $red);
+
+	.footer__copy {
+		margin: $gutter-sm 0;
+	}
+
+	.footer__link {
+		color: $yellow;
+
+		&:hover {
+			color: $yellow;
+			text-decoration: none;
+		}
+	}
+}
