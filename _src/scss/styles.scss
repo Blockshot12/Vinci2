@@ -2,6 +2,7 @@
 @import "vendors/normalize";
 
 // Variables
+@import "variables/settings.global";
 @import "variables/breakpoints";
 @import "variables/colors";
 
@@ -16,3 +17,4 @@
 // Layout
 @import "layout/l-grid";
 @import "layout/site-nav";
+@import "layout/footer";
