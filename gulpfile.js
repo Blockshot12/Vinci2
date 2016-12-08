@@ -62,7 +62,6 @@ const fontmin = require('gulp-fontmin');
 const flatten = require('gulp-flatten');
 const gulp = require('gulp');
 const htmlmin = require('gulp-htmlmin');
-const htmlv = require('gulp-html-validator');
 const imagemin = require('gulp-imagemin');
 const lost = require('lost');
 const notify = require('gulp-notify');
