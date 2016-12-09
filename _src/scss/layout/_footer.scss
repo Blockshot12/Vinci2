@@ -1,7 +1,10 @@
 .footer {
-	padding: $gutter-sm 0;
+	padding: $gutter-md 0;
 	background-color: $red-purple;
 	@include gradient-horizontal-three-colors($purple, $red-purple, 20%, $red);
+	@include bp($breakpoint-md) {
+		padding: $gutter-lg 0;
+	}
 
 	.footer__copy {
 		color: $white;
