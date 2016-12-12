@@ -1,0 +1,12 @@
+.icon-nav__list {
+	float: right;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+
+	.icon-nav__item {
+		float: left;
+		width: $nav-height;
+		text-align: center;
+	}
+}
