@@ -2,7 +2,7 @@
 	padding: $gutter-md 0;
 	background-color: $red-purple;
 	@include gradient-horizontal-three-colors($purple, $red-purple, 20%, $red);
-	@include bp($breakpoint-md) {
+	@include bp(large-up) {
 		padding: $gutter-lg 0;
 	}
 
