@@ -13,3 +13,9 @@ $text-color: $grey-blue;
 $title-color: #555;
 
 $link-color: #444;
+
+$nav-color: $white;
+$nav-link-color: $yellow;
+$nav-link-hover: darken($red,3);
+$nav-link-active-bg: $orange;
+$nav-link-focus-bg: lighten($orange,6);
