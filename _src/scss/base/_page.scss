@@ -10,14 +10,13 @@
           box-sizing: border-box;
 }
 html {
-	font-family: 'Roboto', sans-serif;
-	font-weight: 300;
+	font-family: $font-family-base;
+	font-weight: $font-weight-thin;
 }
 body {
 	height: 100%;
 	color: $text-color;
 	font-size: $font-size-base;
-	font-weight: $font-weight-base;
 	line-height: $line-height-base;
 	letter-spacing: $letter-spacing-base;
 	background-color: $white;
